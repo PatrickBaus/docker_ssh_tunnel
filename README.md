@@ -17,7 +17,6 @@ services:
       - remote
     environment:
       - USER=SSH_USER
-      - LOCAL_PORT=LOCAL_PORT
       - REMOTE_HOST=REMOTE_SERVER
       - REMOTE_PORT=REMOTE_PORT
       - ENDPOINT=SSH_ENDPOINT
@@ -33,18 +32,21 @@ networks:
 ```
 
 The SSH tunnel can now be accessed from another Docker service within the same `remote` network via
-`ssh-tunnel:LOCAL_PORT`.
+`ssh-tunnel:REMOTE_PORT`. Do note, that by default, the local port of the tunnel is the same as the remote port. See
+[SSH settings](#ssh-settings) for details.
 
 ## Customizing
 The following parameters need to be set to establish an SSH tunnel:
 
 ### SSH settings
 
-| Name                  | Description                                                                                      |
-|-----------------------|--------------------------------------------------------------------------------------------------|
-| `SSH_USER`            | The SSH user name to log into the remote SSH endpoint. Typically: SSH_USER@SSH_ENDPOINT          |
-| `SSH_ENDPOINT`        | The hostname or IP (optional: port) of the remote SSH endpoint. Typically: SSH_USER@SSH_ENDPOINT |
-| `THE_PRIVATE_SSH.key` | The location of the private SSH key file used for public key authentication.                     |
+| Name                  | Description                                                                                       |
+|-----------------------|---------------------------------------------------------------------------------------------------|
+| `SSH_USER`            | The SSH user name to log into the remote SSH endpoint. Typically: SSH_USER@SSH_ENDPOINT           |
+| `SSH_ENDPOINT`        | The hostname or IP (optional: port) of the remote SSH endpoint. Typically: SSH_USER@SSH_ENDPOINT  |
+| `SSH_PORT`            | The SSH port of the endpoint. (default=22)                                                        |
+| `KEEP_ALIVE_INTERVAL` | Send a keep alive every $KEEP_ALIVE_INTERVAL seconds. Terminate after three failures. (default=1) |
+| `THE_PRIVATE_SSH.key` | The location of the private SSH key file used for public key authentication.                      |
 
 This service requires the use of public key authentication. It does not work with a username and password. To create a
 valid key pair use
@@ -55,11 +57,11 @@ Do remember to replace the comment with something useful and memorable.
 
 ### Remote connection settings
 
-| Name                  | Description                                                                                                 |
-|-----------------------|-------------------------------------------------------------------------------------------------------------|
-| `LOCAL_PORT`          | The local port to which the remote service is forwarded to. The service can be reached at this port later.  |
-| `REMOTE_SERVER`       | The hostname or IP of the server hosting the service within the remote network and behind the SSH endpoint. |
-| `REMOTE_PORT`         | The port on the remote server hosting the service.                                                          |
+| Name                  | Description                                                                                                                       |
+|-----------------------|-----------------------------------------------------------------------------------------------------------------------------------|
+| `LOCAL_PORT`          | The local port to which the remote service is forwarded to. The service can be reached on this port later. (default=REMOTE_PORT)  |
+| `REMOTE_SERVER`       | The hostname or IP of the server hosting the service within the remote network and behind the SSH endpoint.                       |
+| `REMOTE_PORT`         | The port on the remote server hosting the service.                                                                                |
 
 
 ## Versioning
