@@ -15,6 +15,7 @@ RUN apk --no-cache upgrade && \
 USER worker
 
 CMD \
+  echo "Starting SSH tunnel to ${ENDPOINT}" \
   ssh \
   -NT \
   -4 \
@@ -24,6 +25,6 @@ CMD \
   -o ExitOnForwardFailure=yes \
   -i /run/secrets/ssh_key \
   -L $LOCAL_PORT:$REMOTE_HOST:$REMOTE_PORT \
-  rasp_gsi@$ENDPOINT \
+  ${USER}@${ENDPOINT} \
   && trap : TERM INT; (while true; do sleep 1000; done) \
   & wait
