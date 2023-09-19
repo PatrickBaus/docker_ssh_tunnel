@@ -24,7 +24,7 @@ CMD \
   -o ServerAliveCountMax=4 \
   -o ExitOnForwardFailure=yes \
   -i /run/secrets/ssh_key \
-  -L $LOCAL_PORT:$REMOTE_HOST:$REMOTE_PORT \
+  -L *:$LOCAL_PORT:$REMOTE_HOST:$REMOTE_PORT \
   ${USER}@${ENDPOINT} \
   && trap : TERM INT; (while true; do sleep 1000; done) \
   & wait
