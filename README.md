@@ -5,8 +5,12 @@
 A lightweight SSH tunnel container to connect services between remote sites. It is used to forward a port from a remote
 server behind a secure SSH endpoint.
 
-## Usage
-An example `docker-compose.yml` file:
+# Setup
+The `Docker SSH Tunnel` is best installed via the Docker repository provided with this repository.
+
+## ... via [`docker-compose`](https://github.com/docker/compose)
+
+Example `docker-compose.yml` for the `Docker SSH Tunnel`:
 ```yaml
 services:
   ssh-tunnel:
