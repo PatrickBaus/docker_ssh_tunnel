@@ -1,5 +1,6 @@
 [![GitHub release](https://img.shields.io/github/release/PatrickBaus/docker_ssh_tunnel.svg)](../../releases/latest)
 [![CI workflow](https://img.shields.io/github/actions/workflow/status/PatrickBaus/docker_ssh_tunnel/ci.yml?branch=master&label=ci&logo=github)](../../actions?workflow=ci)
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](LICENSE)
 [![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=flat&logo=docker&logoColor=white)](../../pkgs/container/docker_ssh_tunnel)
 # Docker SSH Tunnel
 A lightweight SSH tunnel container to connect services between remote sites. It is used to forward a port from a remote
