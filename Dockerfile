@@ -1,4 +1,4 @@
-FROM alpine:3.18.4
+FROM alpine:3.18.5
 LABEL maintainer="Patrick Baus <patrick.baus@physik.tu-darmstadt.de>"
 LABEL description="SSH Tunnel"
 
