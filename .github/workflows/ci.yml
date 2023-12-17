@@ -99,7 +99,7 @@ jobs:
       - name: Sanitize platform string
         id: platform
         run: |
-          echo "value=echo ${${{ matrix.platform }}/\//_}" >> $GITHUB_OUTPUT
+          echo "value=${${{ matrix.platform }}/\//_}" >> $GITHUB_OUTPUT
         shell: bash
 
       - name: Upload digest
