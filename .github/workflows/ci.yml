@@ -15,6 +15,12 @@ env:
 jobs:
   prepare:
     runs-on: ubuntu-latest
+    outputs:
+      image: ${{ steps.set-variables.outputs.image }}
+      push: ${{ steps.set-variables.outputs.push }}
+      meta-json: ${{ steps.meta.outputs.json }}
+      meta-labels: ${{ steps.meta.outputs.labels }}
+      meta-version: ${{ steps.meta.outputs.version }}
     steps:
       - name: Convert repository name to lowercase
         id: set-variables
@@ -36,12 +42,6 @@ jobs:
             type=pep440,pattern={{version}}
             type=pep440,pattern={{major}}
             type=pep440,pattern={{major}}.{{minor}}
-    outputs:
-      image: ${{ steps.set-variables.outputs.image }}
-      push: ${{ steps.set-variables.outputs.push }}
-      meta-json: ${{ steps.meta.outputs.json }}
-      meta-labels: ${{ steps.meta.outputs.labels }}
-      meta-version: ${{ steps.meta.outputs.version }}
 
   build:
     needs:
@@ -96,11 +96,17 @@ jobs:
           digest="${{ steps.build.outputs.digest }}"
           touch "/tmp/digests/${digest#sha256:}"
 
+      - name: Sanitize platform string
+        id: platform
+        run: |
+          echo "value=echo ${${{ matrix.platform }}/\//_}" >> $GITHUB_OUTPUT
+        shell: bash
+
       - name: Upload digest
         if: needs.prepare.outputs.push == 'true'
         uses: actions/upload-artifact@v4
         with:
-          name: digest-${{ matrix.platform }}
+          name: digest-${{ steps.platform.outputs.value }}
           path: /tmp/digests/*
           if-no-files-found: error
           retention-days: 1
