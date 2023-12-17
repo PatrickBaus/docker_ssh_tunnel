@@ -100,7 +100,7 @@ jobs:
         if: needs.prepare.outputs.push == 'true'
         uses: actions/upload-artifact@v4
         with:
-          name: digest-${{ matrix.arch }}
+          name: digest-${{ matrix.platform }}
           path: /tmp/digests/*
           if-no-files-found: error
           retention-days: 1
