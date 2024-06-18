@@ -127,13 +127,9 @@ jobs:
       - name: Download digests
         uses: actions/download-artifact@v4
         with:
-          path: artifacts
-
-      - name: Merge artifacts
-        run: |
-          mkdir /tmp/digests
-          mv artifacts/*/* /tmp/digests
-        shell: bash
+          path: digests
+          pattern: digest-*
+          merge-multiple: true
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -150,7 +146,7 @@ jobs:
 
       - name: Create manifest list and push
         if: needs.prepare.outputs.push == 'true'
-        working-directory: /tmp/digests
+        working-directory: digests
         run: |
           docker buildx imagetools create $(jq -r '"-t " + (.tags | join(" -t "))' <<< '${{ needs.prepare.outputs.meta-json }}') \
             $(printf '${{ needs.prepare.outputs.image }}@sha256:%s ' *)
